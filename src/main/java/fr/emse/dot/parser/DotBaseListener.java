@@ -30,6 +30,18 @@ public class DotBaseListener implements DotListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGraphType(DotParser.GraphTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGraphType(DotParser.GraphTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStmtList(DotParser.StmtListContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -61,6 +73,18 @@ public class DotBaseListener implements DotListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAttrStmt(DotParser.AttrStmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEntityType(DotParser.EntityTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEntityType(DotParser.EntityTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

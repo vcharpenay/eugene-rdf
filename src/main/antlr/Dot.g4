@@ -7,13 +7,17 @@ grammar Dot;
 package fr.emse.dot.parser;
 }
 
-graph : 'strict'? ('graph' | 'digraph') '{' stmtList '}' ;
+graph : 'strict'? graphType ID? '{' stmtList '}' ;
+
+graphType : 'graph' | 'digraph' ;
 
 stmtList : (stmt ';'? stmtList)? ;
 
 stmt : nodeStmt | edgeStmt | attrStmt ;
 
-attrStmt : ('graph' | 'node' | 'edge') attrList ;
+attrStmt : entityType attrList ;
+
+entityType : 'graph' | 'node' | 'edge' ;
 
 attrList : '[' aList? ']' attrList? ;
 
@@ -30,6 +34,6 @@ nodeStmt : nodeID attrList? ;
 nodeID : ID ;
 
 ID : '"' ~["]* '"'
-   | [0-9A-Za-z]+ ;
+   | [.0-9A-Za-z]+ ;
 
 WS : [ \t\r\n]+ -> skip ;

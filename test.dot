@@ -1,1 +1,22 @@
-digraph { "genid-e979b190f5e246cf8b4fe54f130c342d-x" []; "http://schema.org/City" []; "file:///g2" []; "http://example.org/eg/NegativeSurface" []; "file:///g2" -> "http://example.org/eg/NegativeSurface" [label="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]; "genid-e979b190f5e246cf8b4fe54f130c342d-x" -> "http://schema.org/City" [label="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"];  }
+digraph {
+	graph [bb="0,0,750.48,123"];
+	node [label="\N"];
+	"http://schema.org/City"	 [height=0.5,
+		pos="175.48,18",
+		width=2.5095];
+	"file:///g2"	 [height=0.5,
+		pos="474.48,105",
+		width=1.1374];
+	"http://example.org/eg/NegativeSurface"	 [height=0.5,
+		pos="474.48,18",
+		width=4.0982];
+	"file:///g2" -> "http://example.org/eg/NegativeSurface"	 [label="http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+		lp="612.48,61.5",
+		pos="e,474.48,36.003 474.48,86.974 474.48,75.192 474.48,59.561 474.48,46.158"];
+	"genid-9e95161620544543b77d2c2f1fb2ee7e-x"	 [height=0.5,
+		pos="175.48,105",
+		width=4.8746];
+	"genid-9e95161620544543b77d2c2f1fb2ee7e-x" -> "http://schema.org/City"	 [label="http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+		lp="313.48,61.5",
+		pos="e,175.48,36.003 175.48,86.974 175.48,75.192 175.48,59.561 175.48,46.158"];
+}

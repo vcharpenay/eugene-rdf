@@ -20,6 +20,16 @@ public interface DotListener extends ParseTreeListener {
 	 */
 	void exitGraph(DotParser.GraphContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DotParser#graphType}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraphType(DotParser.GraphTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DotParser#graphType}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraphType(DotParser.GraphTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DotParser#stmtList}.
 	 * @param ctx the parse tree
 	 */
@@ -49,6 +59,16 @@ public interface DotListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAttrStmt(DotParser.AttrStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DotParser#entityType}.
+	 * @param ctx the parse tree
+	 */
+	void enterEntityType(DotParser.EntityTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DotParser#entityType}.
+	 * @param ctx the parse tree
+	 */
+	void exitEntityType(DotParser.EntityTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DotParser#attrList}.
 	 * @param ctx the parse tree

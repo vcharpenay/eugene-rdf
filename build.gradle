@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation 'org.eclipse.rdf4j:rdf4j-rio-trig:3.0.4'
+    implementation 'org.antlr:antlr4:4.9.2'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

@@ -55,10 +55,13 @@ public class Graph extends AttributedEntity {
 
         @Override
         public void enterEdgeStmt(DotParser.EdgeStmtContext ctx) {
-            String lhs = ctx.nodeID().getText();
+            String lhsId = asPlainString(ctx.nodeID().getText());
             String op = ctx.edgeRHS().edgeOp().getText();
-            String rhs = ctx.edgeRHS().nodeID().getText();
-            Edge e = new Edge(asPlainString(lhs), asOpType(op), asPlainString(rhs));
+            String rhsId = asPlainString(ctx.edgeRHS().nodeID().getText());
+
+            Node lhs = graph.getOrAddNode(lhsId);
+            Node rhs = graph.getOrAddNode(rhsId);
+            Edge e = new Edge(lhs, asOpType(op), rhs);
 
             contexts.put(ctx.attrList().aList(), e);
 
@@ -118,6 +121,17 @@ public class Graph extends AttributedEntity {
         return edges;
     }
 
+    public Node getOrAddNode(String id) {
+        for (Node n : nodes) {
+            if (n.getId().equals(id)) return n;
+        }
+
+        Node n = new Node(id);
+        nodes.add(n);
+
+        return n;
+    }
+
     public void addNode(Node n) {
         nodes.add(n);
     }
@@ -148,10 +162,10 @@ public class Graph extends AttributedEntity {
                 String p = t.getPredicate().stringValue();
                 String o = t.getObject().stringValue();
 
-                dot.nodes.add(new Node(s));
-                dot.nodes.add(new Node(o));
+                Node lhs = dot.getOrAddNode(s);
+                Node rhs = dot.getOrAddNode(o);
 
-                Edge e = new Edge(s, Edge.OpType.DirectedOp, o);
+                Edge e = new Edge(lhs, Edge.OpType.DirectedOp, rhs);
                 e.setAttribute("label", p);
                 dot.edges.add(e);
             }

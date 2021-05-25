@@ -7,11 +7,9 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.Rio;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.Buffer;
 
 public class GraphTest {
 
@@ -36,7 +34,7 @@ public class GraphTest {
 
         Graph built = Graph.build(i);
 
-        assert built.getNodes().size() == 0; // FIXME an edge should contain refs to nodes
+        assert built.getNodes().size() == 2;
         assert built.getEdges().size() == 1;
     }
 
@@ -51,7 +49,7 @@ public class GraphTest {
 
         built = Graph.build(i);
 
-        assert built.getNodes().size() == 0; // FIXME see above
+        assert built.getNodes().size() == 2;
         assert built.getEdges().size() == 1;
     }
 

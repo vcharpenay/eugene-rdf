@@ -13,13 +13,13 @@ public class Edge extends AttributedEntity {
         }
     }
 
-    protected final String lhs;
+    protected final Node lhs;
 
-    protected final String rhs;
+    protected final Node rhs;
 
     protected final OpType op;
 
-    public Edge(String lhs, OpType op, String rhs) {
+    public Edge(Node lhs, OpType op, Node rhs) {
         this.lhs = lhs;
         this.op = op;
         this.rhs = rhs;
@@ -27,7 +27,7 @@ public class Edge extends AttributedEntity {
 
     @Override
     public String toString() {
-        return String.format("\"%s\" %s \"%s\" %s;", lhs, op.label, rhs, listAttributes());
+        return String.format("\"%s\" %s \"%s\" %s;", lhs.getId(), op.label, rhs.getId(), listAttributes());
     }
 
 }

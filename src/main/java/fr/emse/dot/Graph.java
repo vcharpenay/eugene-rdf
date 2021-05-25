@@ -131,12 +131,12 @@ public class Graph extends AttributedEntity {
         String type = isDigraph ? "digraph" : "graph";
 
         StringBuilder nb = new StringBuilder();
-        nodes.forEach(n -> nb.append(n.toString() + " "));
+        nodes.forEach(n -> nb.append(n.toString() + "\n"));
 
         StringBuilder eb = new StringBuilder();
-        edges.forEach(e -> eb.append(e.toString() + " "));
+        edges.forEach(e -> eb.append(e.toString() + "\n"));
 
-        return String.format("%s { graph %s; %s%s }", type, listAttributes(), nb, eb);
+        return String.format("%s {\ngraph %s;\n%s\n%s}", type, listAttributes(), nb, eb);
     }
 
     public static Graph build(Model g) {

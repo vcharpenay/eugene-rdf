@@ -1,0 +1,3 @@
+digraph {
+    "http://schema.org/City" -> "http://schema.org/AdministrativeArea" [label="a"]
+}

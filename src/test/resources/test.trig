@@ -1,0 +1,14 @@
+@prefix eg: <http://example.org/eg/> .
+@prefix schema: <http://schema.org/> .
+
+<g1> a eg:NegativeSurface .
+
+<g1> {
+	_:x a schema:City .
+
+	<g2> a eg:NegativeSurface .
+}
+
+<g2> {
+	_:x a schema:AdministrativeArea .
+}

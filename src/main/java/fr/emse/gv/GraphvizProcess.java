@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 
 public class GraphvizProcess {
 
-    public void run(Graph g) throws Exception {
-        ProcessBuilder psb = new ProcessBuilder("dot", "-Tpng", "-otest.png");
+    public static Graph layOut(Graph g) throws Exception {
+        ProcessBuilder psb = new ProcessBuilder("dot", "-Tdot");
         psb.redirectError(new File("error.log"));
 
         Process ps = psb.start();
@@ -18,6 +18,8 @@ public class GraphvizProcess {
         w.close();
 
         ps.waitFor();
+
+        return Graph.build(ps.getInputStream());
     }
 
 }

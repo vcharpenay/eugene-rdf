@@ -6,6 +6,7 @@ import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.Rio;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.Locale;
@@ -16,12 +17,20 @@ import java.util.Locale;
 public class Eugene {
 
     public static void main(String[] args) throws Exception {
+        if (args.length < 2) {
+            System.out.println("Usage: eugene-rdf <input_file.trig> <output_file.dot>");
+            return;
+        }
+
+        String in = args[0];
+        String out = args[1];
+
         // the DOT uses en-US standards; change locale for default serializations
         Locale.setDefault(Locale.forLanguageTag("en-US"));
 
-        String f = "test.trig";
+        File f = new File(in);
 
-        Model ds = Rio.parse(new FileInputStream(f), "file:///", RDFFormat.TRIG);
+        Model ds = Rio.parse(new FileInputStream(f), String.format("file://%s", f.getAbsoluteFile()), RDFFormat.TRIG);
 
         Surface s = new Surface(ds);
 
@@ -29,7 +38,7 @@ public class Eugene {
 
         Graph eg = s.toDOT();
 
-        FileWriter writer = new FileWriter("test-eg.dot");
+        FileWriter writer = new FileWriter(out);
         writer.append(eg.toString());
         writer.close();
     }

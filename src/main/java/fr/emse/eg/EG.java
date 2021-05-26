@@ -10,7 +10,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
  */
 public class EG {
 
-    public static final String NS = "http://example.org/eg/";
+    public static final String NS = "http://example.org/eg/"; // TODO proper namespace
 
     public static final IRI POSITIVE_SURFACE = SimpleValueFactory.getInstance().createIRI(NS + "PositiveSurface");
 
@@ -20,9 +20,17 @@ public class EG {
 
     public static final IRI MODAL_SURFACE = SimpleValueFactory.getInstance().createIRI(NS + "ModalSurface");
 
-    public static final boolean isEGTriple(Statement t) {
+    public static boolean isEGTriple(Statement t) {
         return t.getPredicate().equals(RDF.TYPE)
             && t.getObject().stringValue().startsWith(NS);
+    }
+
+    public static String getSurfaceColor(IRI classIRI) {
+        if (classIRI.equals(POSITIVE_SURFACE)) return "Lime Green";
+        else if (classIRI.equals(NEGATIVE_SURFACE)) return "Firebrick";
+        else if (classIRI.equals(NEUTRAL_SURFACE)) return "Light Slate Gray";
+        else if (classIRI.equals(MODAL_SURFACE)) return "Slate Blue";
+        else return "Black";
     }
 
 }

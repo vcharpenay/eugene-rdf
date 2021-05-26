@@ -18,11 +18,17 @@ public abstract class AttributedEntity {
 
         List<Double> doubles = new ArrayList<>();
 
-        for (String nb : value.split(",")) {
-            doubles.add(Double.parseDouble(nb));
+        if (value != null) {
+            for (String nb : value.split(",")) {
+                doubles.add(Double.parseDouble(nb));
+            }
         }
 
         return doubles;
+    }
+
+    public Double getNumberAttribute(String name) {
+        return Double.parseDouble(getAttribute(name));
     }
 
     public void setAttribute(String name, String value) {

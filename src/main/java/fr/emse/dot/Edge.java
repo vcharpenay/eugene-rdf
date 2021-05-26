@@ -1,5 +1,7 @@
 package fr.emse.dot;
 
+import java.util.Objects;
+
 public class Edge extends AttributedEntity {
 
     public enum OpType {
@@ -23,6 +25,31 @@ public class Edge extends AttributedEntity {
         this.lhs = lhs;
         this.op = op;
         this.rhs = rhs;
+    }
+
+    public Node getLHS() {
+        return lhs;
+    }
+
+    public Node getRHS() {
+        return rhs;
+    }
+
+    public OpType getOp() {
+        return op;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return Objects.equals(lhs, edge.lhs) && Objects.equals(rhs, edge.rhs) && op == edge.op;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lhs, rhs, op);
     }
 
     @Override

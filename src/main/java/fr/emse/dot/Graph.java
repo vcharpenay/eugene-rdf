@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,12 +46,10 @@ public class Graph extends AttributedEntity {
 
         @Override
         public void enterNodeStmt(DotParser.NodeStmtContext ctx) {
-            String id =  ctx.nodeID().getText();
-            Node n = new Node(asPlainString(id));
+            String id =  asPlainString(ctx.nodeID().getText());
+            Node n = graph.getNode(id, true);
 
             contexts.put(ctx.attrList().aList(), n);
-
-            graph.nodes.add(n);
         }
 
         @Override
@@ -59,8 +58,8 @@ public class Graph extends AttributedEntity {
             String op = ctx.edgeRHS().edgeOp().getText();
             String rhsId = asPlainString(ctx.edgeRHS().nodeID().getText());
 
-            Node lhs = graph.getOrAddNode(lhsId);
-            Node rhs = graph.getOrAddNode(rhsId);
+            Node lhs = graph.getNode(lhsId, true);
+            Node rhs = graph.getNode(rhsId, true);
             Edge e = new Edge(lhs, asOpType(op), rhs);
 
             contexts.put(ctx.attrList().aList(), e);
@@ -121,22 +120,29 @@ public class Graph extends AttributedEntity {
         return edges;
     }
 
-    public Node getOrAddNode(String id) {
+    public Node getNode(String id, Boolean addIfAbsent) {
         for (Node n : nodes) {
             if (n.getId().equals(id)) return n;
         }
 
+        if (!addIfAbsent) return null;
+
         Node n = new Node(id);
         nodes.add(n);
-
         return n;
     }
 
+    public Node getNode(String id) {
+        return getNode(id, false);
+    }
+
     public void addNode(Node n) {
+        // TODO merge if node already exists (but with different attributes)
         nodes.add(n);
     }
 
     public void addEdge(Edge e) {
+        // TODO merge if edge already exists (but with different attributes)
         edges.add(e);
     }
 
@@ -162,8 +168,10 @@ public class Graph extends AttributedEntity {
                 String p = t.getPredicate().stringValue();
                 String o = t.getObject().stringValue();
 
-                Node lhs = dot.getOrAddNode(s);
-                Node rhs = dot.getOrAddNode(o);
+                Node lhs = dot.getNode(s, true);
+                Node rhs = dot.getNode(o, true);
+
+                if (t.getPredicate().equals(RDF.TYPE)) p = "a";
 
                 Edge e = new Edge(lhs, Edge.OpType.DirectedOp, rhs);
                 e.setAttribute("label", p);

@@ -1,5 +1,7 @@
 package fr.emse.dot;
 
+import org.eclipse.rdf4j.model.IRI;
+
 public class Node extends AttributedEntity {
 
     protected final String id;
@@ -28,6 +30,10 @@ public class Node extends AttributedEntity {
     @Override
     public String toString() {
         return String.format("\"%s\" %s;", id, listAttributes());
+    }
+
+    public static Node build(IRI id) {
+        return new Node(id.stringValue());
     }
 
 }

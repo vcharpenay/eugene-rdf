@@ -146,6 +146,18 @@ public class Graph extends AttributedEntity {
         edges.add(e);
     }
 
+    public void removeNode(Node n) {
+        Set<Edge> toRemove = new HashSet<>();
+
+        for (Edge e : edges) {
+            if (e.getLHS().equals(n)) toRemove.add(e);
+            if (e.getRHS().equals(n)) toRemove.add(e);
+        }
+
+        nodes.remove(n);
+        edges.removeAll(toRemove);
+    }
+
     @Override
     public String toString() {
         String type = isDigraph ? "digraph" : "graph";

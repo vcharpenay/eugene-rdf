@@ -49,4 +49,24 @@ public abstract class AttributedEntity {
         return String.format("[%s]", ab);
     }
 
+    /**
+     * Conversion from inches (default measurement unit in Graphviz) to points (used by neato for positioning).
+     *
+     * @param in value in inches (in)
+     * @return converted value in points (pt)
+     */
+    public static Double in2pt(Double in) {
+        return in * 72;
+    }
+
+    /**
+     * Inverse conversion w.r.t. {@code in2pt}.
+     *
+     * @param pt value in points (pt)
+     * @return converted value in inches (in)
+     */
+    public static Double pt2in(Double pt) {
+        return pt / 72;
+    }
+
 }

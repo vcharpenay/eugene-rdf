@@ -25,12 +25,4 @@ public class EG {
             && t.getObject().stringValue().startsWith(NS);
     }
 
-    public static String getSurfaceColor(IRI classIRI) {
-        if (classIRI.equals(POSITIVE_SURFACE)) return "Lime Green";
-        else if (classIRI.equals(NEGATIVE_SURFACE)) return "Firebrick";
-        else if (classIRI.equals(NEUTRAL_SURFACE)) return "Light Slate Gray";
-        else if (classIRI.equals(MODAL_SURFACE)) return "Slate Blue";
-        else return "Black";
-    }
-
 }

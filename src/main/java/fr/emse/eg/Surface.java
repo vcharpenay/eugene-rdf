@@ -82,27 +82,27 @@ public class Surface {
      * @throws Exception TODO handle exceptions
      */
     public Graph toDOT() throws Exception {
-        return toDOT(new HashSet<>());
-    }
-
-    Graph toDOT(Set<Node> overlappingNodes) throws Exception {
         Graph g = Graph.build(graph);
-        for (Node n : overlappingNodes) g.removeNode(n);
 
         Map<Graph, String> surfaceNodes = new HashMap<>();
 
-        Set<Edge> overlappingEdges = new HashSet<>();
+        Set<Edge> overlapEdges = new HashSet<>();
         Set<Edge> substituteEdges = new HashSet<>();
 
         for (Surface s : containedSurfaces) {
-            Graph sg = Graph.build(s.getGraph());
+            Graph sg = s.toDOT();
 
-            Set<Node> overlap = g.getNodes();
-            for (Edge e : sg.getEdges()) {
-                if (overlap.contains(e.getLHS()) || overlap.contains(e.getRHS())) overlappingEdges.add(e);
+            for (Node n : g.getNodes()) {
+                for (Node sn : sg.getNodes()) {
+                    if (getLocalId(n).equals(getLocalId(sn))) {
+                        Edge e = new Edge(n, Edge.OpType.DirectedOp, sn);
+                        e.setAttribute("style", "dashed");
+                        e.setAttribute("arrowhead", "none");
+
+                        overlapEdges.add(e);
+                    }
+                }
             }
-
-            sg = s.toDOT(overlap);
 
             List<Double> boundingBox = sg.getNumbersAttribute("bb");
             Double width = AttributedEntity.pt2in(boundingBox.get(2) + 2 * SURFACE_PADDING);
@@ -120,11 +120,8 @@ public class Surface {
             g.addNode(n);
             surfaceNodes.put(sg, n.getId());
 
-            for (Edge e : overlappingEdges) {
-                Node lhs = overlap.contains(e.getLHS()) ? e.getLHS() : n;
-                Node rhs = overlap.contains(e.getRHS()) ? e.getRHS() : n;;
-
-                Edge substitute = new Edge(lhs, e.getOp(), rhs);
+            for (Edge e : overlapEdges) {
+                Edge substitute = new Edge(e.getLHS(), e.getOp(), n);
 
                 g.addEdge(substitute);
                 substituteEdges.add(substitute);
@@ -158,10 +155,18 @@ public class Surface {
             }
         }
 
-        merged.getEdges().addAll(overlappingEdges);
+        merged.getEdges().addAll(overlapEdges);
         merged.getEdges().removeAll(substituteEdges);
 
         return merged;
+    }
+
+    private String getLocalId(Node n) {
+        // TODO use inheritance for cleaner comparison?
+        String[] id = n.getId().split(Graph.CONTEXT_SEPARATOR);
+
+        if (id.length == 1) return id[0];
+        else return id[1];
     }
 
 }

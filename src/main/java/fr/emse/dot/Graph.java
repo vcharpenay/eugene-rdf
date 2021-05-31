@@ -9,8 +9,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.eclipse.rdf4j.model.Model;
-import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.*;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 import java.io.IOException;
@@ -25,6 +24,11 @@ import java.util.Set;
  * Data structure holding the abstract syntax tree of a DOT file
  */
 public class Graph extends AttributedEntity {
+
+    /**
+     * Separator in node ID between context (graph name) and node IRI, when building from an RDF graph
+     */
+    public static final String CONTEXT_SEPARATOR = "__";
 
     static class GraphBuilder extends DotBaseListener {
 
@@ -176,17 +180,18 @@ public class Graph extends AttributedEntity {
 
         for (Statement t : g) {
             if (!EG.isEGTriple(t)) {
-                String s = t.getSubject().stringValue();
-                String p = t.getPredicate().stringValue();
-                String o = t.getObject().stringValue();
+                Resource s = t.getSubject();
+                IRI p = t.getPredicate();
+                Value o = t.getObject();
+                Resource ctx = t.getContext();
 
-                Node lhs = dot.getNode(s, true);
-                Node rhs = dot.getNode(o, true);
+                Node lhs = buildNode(dot, s, ctx);
+                Node rhs = buildNode(dot, o, ctx);
 
-                if (t.getPredicate().equals(RDF.TYPE)) p = "a";
+                String label = p.equals(RDF.TYPE) ? "a" : p.stringValue();
 
                 Edge e = new Edge(lhs, Edge.OpType.DirectedOp, rhs);
-                e.setAttribute("label", p);
+                e.setAttribute("label", label);
                 dot.edges.add(e);
             }
         }
@@ -206,6 +211,17 @@ public class Graph extends AttributedEntity {
         ParseTreeWalker.DEFAULT.walk(builder, ast);
 
         return builder.getGraph();
+    }
+
+    private static Node buildNode(Graph g, Value res, Resource graphName) {
+        String iri = res.stringValue();
+        String label = (res instanceof BNode) ? "" : iri;
+        String id = graphName == null ? iri : String.format("%s%s%s", graphName.stringValue(), CONTEXT_SEPARATOR, iri);
+
+        Node n = g.getNode(id, true);
+        n.setAttribute("label", label);
+
+        return n;
     }
 
 }

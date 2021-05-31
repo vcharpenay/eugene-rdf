@@ -25,12 +25,12 @@ public class Eugene {
         String in = args[0];
         String out = args[1];
 
-        // the DOT uses en-US standards; change locale for default serializations
+        // the DOT language uses US standards; change locale for default serializations
         Locale.setDefault(Locale.forLanguageTag("en-US"));
 
         File f = new File(in);
 
-        Model ds = Rio.parse(new FileInputStream(f), String.format("file://%s", f.getAbsoluteFile()), RDFFormat.TRIG);
+        Model ds = Rio.parse(new FileInputStream(f), String.format("file://%s", f.getAbsolutePath()), RDFFormat.TRIG);
 
         Surface s = new Surface(ds);
 
